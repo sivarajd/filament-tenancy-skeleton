@@ -14,13 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory()->create([
+        \App\Models\Admin\CentralUser::factory()->create([
             'name' => 'Admin user',
             'email' => 'admin@filamenttenancy.com',
         ]);
 
         foreach (['foo','bar','baz'] as $tenant_code) {
-            $tenant = \App\Models\Tenant::create([ 'id' => $tenant_code]);
+            $tenant = \App\Models\Admin\Tenant::create([ 'id' => $tenant_code]);
             $tenant->domains()->create(['domain' => $tenant->id]);
         }
     }

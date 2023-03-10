@@ -18,7 +18,7 @@ class TenantSeeder extends Seeder
 
         \App\Models\User::factory()->create([
             'name' => 'Test User',
-            'email' => 'test@example.com',
+            'email' => tenancy()->tenant->id.'@example.com',
         ]);
     }
 }

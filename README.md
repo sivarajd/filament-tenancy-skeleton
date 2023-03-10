@@ -13,11 +13,13 @@ Skeleton using Filament 2.x & Tenancy for Laravel 3.x.  This will give a Filamen
 
 `composer install`
 
-`php artisan key:generate`
-
 * Copy .env.example to .env
 
 `cp .env.example .env`
+
+* Generate app key
+
+`php artisan key:generate`
 
 * Edit .env file to add database credentials
 
@@ -26,6 +28,11 @@ Skeleton using Filament 2.x & Tenancy for Laravel 3.x.  This will give a Filamen
 `php artisan migrate --seed`
 
 `php artisan tenants:seed`
+
+* Install node modules & build vite resources
+
+`npm install`  
+`npm run build`
 
 * Visit http://localhost:8000/ for main page & http://foo.localhost:8000/app/login for Tenant page
 

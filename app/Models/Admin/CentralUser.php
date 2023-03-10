@@ -1,17 +1,21 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Stancl\Tenancy\Contracts\Syncable;
+use Stancl\Tenancy\Contracts\SyncMaster;
+use Stancl\Tenancy\Database\Concerns\CentralConnection;
 use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
+use Stancl\Tenancy\Database\Models\TenantPivot;
 
-class User extends Authenticatable implements Syncable
+class CentralUser extends Authenticatable implements SyncMaster, MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, ResourceSyncing;
+    use HasApiTokens, HasFactory, Notifiable, ResourceSyncing, CentralConnection;
 
     /**
      * The attributes that are mass assignable.
@@ -39,8 +43,21 @@ class User extends Authenticatable implements Syncable
      * @var array<string, string>
      */
     protected $casts = [
-        //
+        'email_verified_at' => 'datetime',
     ];
+    public function tenants(): BelongsToMany
+    {
+        return $this->belongsToMany(Tenant::class, 'tenant_user', 'global_user_id', 'tenant_id', 'global_id')
+            ->using(TenantPivot::class);
+    }
+    public function getTenantAttribute()
+    {
+        return $this->tenants->first();
+    }
+    public function getTenantModelName(): string
+    {
+        return User::class;
+    }
     public function getGlobalIdentifierKey()
     {
         return $this->getAttribute($this->getGlobalIdentifierKeyName());
@@ -51,14 +68,15 @@ class User extends Authenticatable implements Syncable
     }
     public function getCentralModelName(): string
     {
-        return \App\Models\Admin\CentralUser::class;
+        return static::class;
     }
     public function getSyncedAttributeNames(): array
     {
         return [
             'name',
-            'email',
             'password',
+            'email',
+            'phone',
             'global_id',
             'remember_token',
         ];

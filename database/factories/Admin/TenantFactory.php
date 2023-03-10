@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Admin;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -18,7 +18,7 @@ class TenantFactory extends Factory
     public function definition()
     {
         return [
-            'id' => Str::lower(Str::random(3)),
+            'id' => Str::lower(Str::random(10)),
         ];
     }
 }

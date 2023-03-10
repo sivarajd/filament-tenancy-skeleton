@@ -12,6 +12,7 @@ use Stancl\Tenancy\Events;
 use Stancl\Tenancy\Jobs;
 use Stancl\Tenancy\Listeners;
 use Stancl\Tenancy\Middleware;
+use App\Listeners\CustomUpdateSyncedResource;
 
 class TenancyServiceProvider extends ServiceProvider
 {
@@ -84,7 +85,7 @@ class TenancyServiceProvider extends ServiceProvider
 
             // Resource syncing
             Events\SyncedResourceSaved::class => [
-                Listeners\UpdateSyncedResource::class,
+                CustomUpdateSyncedResource::class,
             ],
 
             // Fired only when a synced resource is changed in a different DB than the origin DB (to avoid infinite loops)
