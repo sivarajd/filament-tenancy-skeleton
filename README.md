@@ -1,5 +1,7 @@
 # Filament Tenancy Skeleton
 
+> Warning: This code is for an older version of Filament (2.x).  Newer versions support basic multi-tenancy using teams. It is not guaranteed to work with Filament 3.x due to certain complexitities related to how storage is handled. If you still wish to use stancl/tenancy for your projects with filament, you can check this code as a reference.
+
 Skeleton using Filament 2.x & Tenancy for Laravel 3.x.  This will give a Filament Admin based tenant application, and basic Breeze based central admin application.
 
 
